@@ -1,50 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PVE</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background: #0b0b0b;
-            color: #e7e7e7;
-            margin: 0;
-            padding: 20px;
-            font-family: "JetBrains Mono", monospace;
-            line-height: 1.65;
-        }
-
-        pre {
-            margin: 0;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-size: 16px;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 0.6ch;
-            margin-left: 2px;
-            border-right: 2px solid #a1a1a1;
-            animation: blink 1s steps(1) infinite;
-        }
-
-        @keyframes blink {
-            50% {
-                border-right-color: transparent;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One Last SOL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body{
+      background:#0b0b0b; color:#e7e7e7; margin:0; padding:20px;
+      font-family:"JetBrains Mono", monospace; line-height:1.65;
+    }
+    pre{ margin:0; white-space:pre-wrap; word-wrap:break-word; font-size:16px; }
+    .cursor{ display:inline-block; width:0.6ch; margin-left:2px; border-right:2px solid #a1a1a1; animation:blink 1s steps(1) infinite; }
+    @keyframes blink{ 50%{ border-right-color:transparent; } }
+    /* single skip button, fixed top-right */
+    .skip{ position:fixed; top:12px; right:12px; background:transparent; border:1px solid rgba(255,255,255,0.25); color:#e7e7e7; padding:8px 12px; border-radius:10px; font-family:"JetBrains Mono", monospace; font-size:12px; cursor:pointer; }
+    .skip:hover{ border-color:rgba(255,255,255,0.5); }
+  </style>
 </head>
-
 <body>
-    <pre id="typewriter"></pre><span id="caret" class="cursor" aria-hidden="true"></span>
-    <script>
-        const content = `I’m done with memecoin trading. This is my last SOL.
+  <button class="skip" id="skip" type="button" aria-label="Skip typing">Skip</button>
+  <pre id="typewriter"></pre><span id="caret" class="cursor" aria-hidden="true"></span>
+  <script>
+    const content = `I’m done with memecoin trading. This is my last SOL.
 
 I’ve been grinding Pumpfun for a year, and let me tell you — it was the best and worst thing that ever happened to me.
 
@@ -62,33 +42,26 @@ Incase this ever picks up, I will continuously update the website with links [Co
 
 We are Solana. We are pumpfun. We are tomorrow. We are Trenchers.`;
 
-        const el = document.getElementById('typewriter');
-        const caret = document.getElementById('caret');
-        let idx = 0;
-        let timer = null;
+    const el = document.getElementById('typewriter');
+    const caret = document.getElementById('caret');
+    const skipBtn = document.getElementById('skip');
 
-        function typeNext() {
-            el.textContent = content.slice(0, idx++);
-            if (idx <= content.length) {
-                const base = 18;
-                const jitter = Math.random() * 40;
-                const pause = content[idx - 1] === '\n' ? 120 : 0;
-                timer = setTimeout(typeNext, base + jitter + pause);
-            } else {
-                caret.style.display = 'none';
-            }
-        }
+    let idx = 0; let timer = null;
 
-        function start() {
-            idx = 0;
-            el.textContent = '';
-            caret.style.display = 'inline-block';
-            clearTimeout(timer);
-            typeNext();
-        }
+    function typeNext(){
+      el.textContent = content.slice(0, idx++);
+      if(idx <= content.length){
+        const base = 18, jitter = Math.random()*40, pause = content[idx-1] === '\n' ? 120 : 0;
+        timer = setTimeout(typeNext, base + jitter + pause);
+      } else { caret.style.display = 'none'; }
+    }
 
-        window.addEventListener('load', start);
-    </script>
+    function start(){ idx = 0; el.textContent=''; caret.style.display='inline-block'; clearTimeout(timer); typeNext(); }
+
+    function skipAll(){ clearTimeout(timer); el.textContent = content; caret.style.display='none'; }
+
+    window.addEventListener('load', start);
+    skipBtn.addEventListener('click', skipAll);
+  </script>
 </body>
-
 </html>
