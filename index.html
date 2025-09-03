@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One Last SOL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body{
+      background: #0b0b0b;
+      color: #e7e7e7;
+      margin: 0;
+      padding: 20px;
+      font-family: "JetBrains Mono", monospace;
+      line-height: 1.65;
+    }
+    pre{
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 16px;
+    }
+    .cursor{
+      display: inline-block;
+      width: 0.6ch;
+      margin-left: 2px;
+      border-right: 2px solid #a1a1a1;
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink {
+      50% { border-right-color: transparent; }
+    }
+  </style>
+</head>
+<body>
+  <pre id="typewriter"></pre><span id="caret" class="cursor" aria-hidden="true"></span>
+  <script>
+    const content = `I’m done with memecoin trading. This is my last SOL.
+
+I’ve been grinding Pumpfun for a year, and let me tell you — it was the best and worst thing that ever happened to me.
+
+The market is down bad. Down in volume, down in vibes, down in numbers — even while Solana itself goes up. Why? The answer is simple: Player versus Player. For over 6 months, not a single true PVE coin. Not one coin that just keeps going up. Not one coin that makes people believe. Not one coin with more than four 15-minute green candles in a row.
+
+Back then, PVE was real. I turned $100 into $25,000 in a single day. Pure vibes. Pure belief. Pure community.
+
+Today? It’s garbage. Bundled coins everywhere. Crybabies blaming losses on devs or KOLs. KOLs shilling their own bags. Everyone just farming each other. PVP hell.
+
+So this is my last message to the Trenches. This is cancer. And if you don’t take care of it now, it will spread until nothing’s left. I’m launching one final PVE attempt. The last shot to prove a point. The last chance to show we’re not just rats fighting over scraps. The last attempt. One last dance.
+
+I won’t sell. I’ll ride every green candle with you. I’ll back the coin from the shadows. I’ll pay for DEX if the community shows up. All I want is to feel something again. To feel PVE. To feel traders happy for each other. To feel real energy. To feel like we’re united, even if just once more.`;
+
+    const el = document.getElementById('typewriter');
+    const caret = document.getElementById('caret');
+    let idx = 0;
+    let timer = null;
+
+    function typeNext(){
+      el.textContent = content.slice(0, idx++);
+      if(idx <= content.length){
+        const base = 18;
+        const jitter = Math.random()*40;
+        const pause = content[idx-1] === '\n' ? 120 : 0;
+        timer = setTimeout(typeNext, base + jitter + pause);
+      } else {
+        caret.style.display = 'none';
+      }
+    }
+
+    function start(){
+      idx = 0;
+      el.textContent = '';
+      caret.style.display = 'inline-block';
+      clearTimeout(timer);
+      typeNext();
+    }
+
+    window.addEventListener('load', start);
+  </script>
+</body>
+</html>
